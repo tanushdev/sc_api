@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ESG PDF Analyzer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-start p-6">
+
+  <h1 class="text-3xl font-bold mb-6 text-center text-green-700">ESG PDF Analyzer</h1>
+
+  <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-xl">
+    <p class="mb-4 text-gray-600">Upload one or more PDFs to analyze ESG scores. Results will be saved automatically.</p>
+    
+    <form id="pdfForm" class="flex flex-col space-y-4">
+      <input type="file" id="pdfFile" name="files" multiple
+             class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500" accept=".pdf">
+      <button type="submit"
+              class="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-colors">Upload & Analyze</button>
+    </form>
+
+    <div id="loading" class="hidden mt-4 text-blue-600 font-semibold">Processing PDFs, please wait...</div>
+
+    <div id="resultContainer" class="mt-6 hidden">
+      <h2 class="text-xl font-semibold mb-2 text-gray-700">Results:</h2>
+      <div id="result" class="bg-gray-50 p-4 rounded max-h-96 overflow-auto"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("pdfForm");
+    const resultContainer = document.getElementById("resultContainer");
+    const result = document.getElementById("result");
+    const loading = document.getElementById("loading");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const files = document.getElementById("pdfFile").files;
+      if (files.length === 0) {
+        alert("Please select at least one PDF file.");
+        return;
+      }
+
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files", files[i]);
+      }
+
+      loading.classList.remove("hidden");
+      resultContainer.classList.add("hidden");
+      result.textContent = "";
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/analyze-pdfs/", {
+          method: "POST",
+          body: formData
+        });
+
+        if (!response.ok) throw new Error("Upload failed.");
+
+        const data = await response.json();
+        result.textContent = JSON.stringify(data, null, 2);
+        resultContainer.classList.remove("hidden");
+      } catch (err) {
+        result.textContent = "Error: " + err.message;
+        resultContainer.classList.remove("hidden");
+      } finally {
+        loading.classList.add("hidden");
+      }
+    });
+  </script>
+
+</body>
+</html>
