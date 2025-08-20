@@ -1,9 +1,7 @@
 fastapi
-uvicorn
+uvicorn[standard]
 pandas
-numpy
-scikit-learn
-scipy
 torch
 sentence-transformers
+python-multipart
 PyMuPDF
