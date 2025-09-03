@@ -159,29 +159,4 @@ When running locally, see **/docs** for interactive Swagger UI.
 
 ---
 
-## 🗺️ Roadmap
-- [ ] Batch pipeline with resumable uploads
-- [ ] Model registry + versioned scoring
-- [ ] Vector search over extracted sentences
-- [ ] Role‑based access & audit logs
-- [ ] Cloud deploy templates (GKE/AKS/EKS)
 
----
-
-## 🤝 Contributing
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feat/awesome-thing`
-3. Commit: `git commit -m "feat: add awesome thing"`
-4. Push: `git push origin feat/awesome-thing`
-5. Open a PR 🚀
-
----
-
-## 🪪 License
-Distributed under the **MIT License**. See `LICENSE` for details.
-
----
-
-<p align="center">
-  Made with ❤️ for better ESG transparency
-</p>
